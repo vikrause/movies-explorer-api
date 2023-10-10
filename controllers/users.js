@@ -8,9 +8,7 @@ const {
 } = require('mongoose').Error;
 
 const getUserInfo = (req, res, next) => {
-  const {email, name} = req.body;
-
-  User.findOne(email, name)
+  User.findById(req.user._id)
     .then((user) => res.send(user))
     .catch((err) => {
       if(err instanceof DocumentNotFoundError) {

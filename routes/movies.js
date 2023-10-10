@@ -6,6 +6,13 @@ const {
   deleteMovie
 } = require('../controllers/movies')
 
+const {
+  createMovieValidator,
+  deleteMovieValidator
+} = require('../middlewares/celebrateValidator')
+
 router.get('/', getMoviesByOwner);
-router.post('/', createMovies);
-router.delete('/:movieId', deleteMovie)
+router.post('/', createMovieValidator, createMovies);
+router.delete('/:movieId', deleteMovieValidator, deleteMovie);
+
+module.exports = router;

@@ -1,16 +1,17 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 
-const { JWT_SECRET = 'JWT_SECRET' } = process.env;
+const { JWT_SECRET, NODE_ENV } = process.env;
+const { DEV_SECRET_KEY, ENV_PRODUCTION } = require('../utils/config');
 
-const login = (req, res, next) => {
+const signIn = (req, res, next) => {
   const { email, password } = req.body;
 
   return User.findUserByCredentials(email, password)
     .then((user) => {
       const token = jwt.sign(
         { _id: user._id },
-        JWT_SECRET,
+        NODE_ENV === ENV_PRODUCTION ? JWT_SECRET : DEV_SECRET_KEY,
         { expiresIn: '7d' });
       res.cookie('jwt', token, {
         maxAge: 3600000 * 24 * 7,
@@ -22,4 +23,4 @@ const login = (req, res, next) => {
     .catch(next);
 };
 
-module.exports = login;
+module.exports = signIn;

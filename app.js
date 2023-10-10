@@ -1,61 +1,43 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const { errors } = require('celebrate');
-const routes = require('./routes');
-const auth = require('./middlewares/auth');
-const errorHandler = require('./middlewares/errorHandler');
-const { requestLogger, errorLogger } = require('./middlewares/logger');
-
 require('dotenv').config();
 
-const { PORT = 3000 } = process.env;
+const express = require('express');
+const cookieParser = require('cookie-parser');
+const helmet = require('helmet');
+const mongoose = require('mongoose');
+const { errors } = require('celebrate');
+
+const router = require('./routes');
+
+const limiter = require('./middlewares/limiter');
+const errorHandler = require('./middlewares/errorHandler');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
+const cors = require('./middlewares/cors')
+
+const { DATABASE, PORT } = process.env;
+const { DEFAULT_DATABASE, DEFAULT_PORT } = require('./utils/config');
+
 const app = express();
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-const allowedCors = [
-  'https://praktikum.tk',
-  'http://praktikum.tk',
-  'https://domainname.vikrause1.nomoredomainsrocks.ru',
-  'http://localhost:3000',
-];
-
-app.use((req, res, next) => {
-  const { origin } = req.headers;
-  const { method } = req;
-  const DEFAULT_ALLOWED_METHODS = 'GET,HEAD,PUT,PATCH,POST,DELETE';
-  const requestHeaders = req.headers['access-control-request-headers'];
-
-  if (allowedCors.includes(origin)) {
-    res.header('Access-Control-Allow-Origin', origin);
-    res.header('Access-Control-Allow-Origin', '*');
-  }
-
-  if (method === 'OPTIONS') {
-    res.header('Access-Control-Allow-Methods', DEFAULT_ALLOWED_METHODS);
-    res.header('Access-Control-Allow-Headers', requestHeaders);
-
-    return res.end();
-  }
-
-  return next();
-});
-
-mongoose.connect('mongodb://127.0.0.1:27017/mestodb', {
+mongoose.connect(DATABASE || DEFAULT_DATABASE, {
   useNewUrlParser: true,
 });
 
-app.use(requestLogger); // подключаем логгер запросов
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
-app.use('/', require('./routes/auth'));
+app.use(helmet());
+app.use(limiter);
+app.use(cors);
 
-app.use(auth);
-app.use(routes);
-app.use(errorLogger); // подключаем логгер ошибок
+app.use(requestLogger);
+
+app.use('/', router);
+
+app.use(errorLogger);
 app.use(errors());
 app.use(errorHandler);
 
-app.listen(PORT, () => {
-  console.log(PORT);
+app.listen(PORT || DEFAULT_PORT, () => {
+  console.log("Я запусьтилься (＠´ー`)ﾉﾞ");
 });
