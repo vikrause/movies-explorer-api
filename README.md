@@ -31,8 +31,8 @@ This project is the backend part of the diploma project Navigator-films. Its goa
   * `/errors` - directory with custom errors
     
 ## To startup the project run next commands:
-    `npm run start` — starts the server
-    `npm run dev` — starts the server with hot-reload
+    npm run start — starts the server
+    npm run dev — starts the server with hot-reload
 
 ## Project link: 
-    `https://movieexplorer.nomoredomainsrocks.ru/`
+    https://movieexplorer.nomoredomainsrocks.ru/
