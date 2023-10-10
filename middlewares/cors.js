@@ -1,8 +1,8 @@
 const allowedCors = [
   'https://praktikum.tk',
   'http://praktikum.tk',
-  'https://domainname.vikrause1.nomoredomainsrocks.ru',
-  'http://localhost:3000',
+  'https://movieExplorer.nomoredomainsrocks.ru',
+  'http://localhost:3002',
 ];
 
 const cors = (req, res, next) => {
