@@ -11,6 +11,6 @@ router.use('/users', auth, usersRouter);
 router.use('/movies', auth, moviesRouter);
 router.use('/signin', signInRouter);
 router.use('/signup', signupRouter);
-router.use('/signout', signOutRouter);
+router.use('/signout', auth, signOutRouter);
 
 module.exports = router;
