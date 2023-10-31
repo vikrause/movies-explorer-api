@@ -3,6 +3,7 @@ const allowedCors = [
   'http://praktikum.tk',
   'https://movieExplorer.nomoredomainsrocks.ru',
   'http://localhost:3002',
+  'http://localhost:3000',
 ];
 
 const cors = (req, res, next) => {
