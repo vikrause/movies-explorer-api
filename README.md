@@ -1,6 +1,6 @@
 # Project: Movies-explorer (Api)
 # About this project:
-This project is the backend part of the diploma project Navigator-films. Its goal is to strengthen the skills of creating a backend application using Node.js
+This project is the backend part of the diploma project Movie Explorer. Its goal is to strengthen the skills of creating a backend application using Node.js
 
 ## Technologies used:
 * ![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white)
