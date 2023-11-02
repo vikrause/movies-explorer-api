@@ -1,10 +1,5 @@
 const signOut = (req, res) => {
-  res.clearCookie(
-    'jwt', {
-      sameSite: 'none',
-      secure: true
-    }
-  );
+  res.clearCookie('jwt');
   res.send({ message: 'Успешный выход'});
 };
 
