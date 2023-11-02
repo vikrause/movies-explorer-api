@@ -61,24 +61,24 @@ const createMovies = (req, res, next) => {
 }
 
 const deleteMovie = (req, res, next) => {
-    const { movieId } = req.params;
-    Movie.findById(movieId)
-      .then((movie) => {
-       if (movie.owner.toString() === req.user._id) {
-         return Movie.deleteOne()
-         .then(() => res.send(movie))
-       }
-       return next(new ForbiddenError('Нет доступа'));
-      })
-      .catch((err) => {
-        if (err instanceof DocumentNotFoundError) {
-          next(new NotFoundError('Не найдено'));
-        } else if (err instanceof CastError) {
-          next(new BadRequest('Некорректные данные'));
-        } else {
-          next(err);
-        }
-      })
+  const { movieId } = req.params;
+  Movie.findById(movieId)
+    .then((movie) => {
+      if (movie.owner.toString() === req.user._id) {
+        return Movie.deleteOne({_id: movieId})
+          .then(() => res.send(movie))
+      }
+      return next(new ForbiddenError('Нет доступа'));
+    })
+    .catch((err) => {
+      if (err instanceof DocumentNotFoundError) {
+        next(new NotFoundError('Не найдено'));
+      } else if (err instanceof CastError) {
+        next(new BadRequest('Некорректные данные'));
+      } else {
+        next(err);
+      }
+    })
 }
 
 module.exports = {
