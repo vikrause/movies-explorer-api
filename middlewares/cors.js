@@ -2,6 +2,7 @@ const allowedCors = [
   'https://praktikum.tk',
   'http://praktikum.tk',
   'https://movieExplorer.nomoredomainsrocks.ru',
+  'https://vikrause-movie.nomoredomainsrocks.ru',
   'http://localhost:3002',
   'http://localhost:3000',
 ];
